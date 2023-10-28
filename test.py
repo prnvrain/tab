@@ -268,16 +268,15 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
                 padded_bbox[2] = min(w, padded_bbox[2])
                 padded_bbox[3] = min(h, padded_bbox[3])
 
-                # Check if the padded bounding box is valid (non-empty)
-                if padded_bbox[0] < padded_bbox[2] and padded_bbox[1] < padded_bbox[3]:
-                    # Crop the padded bounding box
-                    cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
+                
+                # Cop the padded bounding box
+                cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
 
-                    # Save the cropped bounding box with a unique filename
-                    cropped_img_save_path = os.path.join(output_path, f"cropped_bbox_{idx}.jpg")
-                    cv2.imwrite(cropped_img_save_path, cropped_bbox)
+                 # Save the cropped bounding box with a unique filename
+                cropped_img_save_path = os.path.join(output_path, f"cropped_bbox_{idx}.jpg")
+                cv2.imwrite(cropped_img_save_path, cropped_bbox)
 
-                    print("Processed...{} in ({:.3f}s)".format(img_sample, infer_time))
+                print("Processed...{} in ({:.3f}s)".format(img_sample, infer_time))
 
     avg_duration = duration / len(images_path)
     print("Avg. Time for cropping: {:.3f}s".format(avg_duration))
@@ -297,5 +296,5 @@ if __name__ == "__main__":
     model.to(device)
     image_paths = get_images(args.data_path)
 
-    padcrop(image_paths, model, postprocessors, device, args.output_dir,2)
+    padcrop(image_paths, model, postprocessors, device, args.output_dir,50)
 
