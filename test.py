@@ -271,7 +271,7 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
                 # Check if the padded bounding box is valid (non-empty)
                 if padded_bbox[0] < padded_bbox[2] and padded_bbox[1] < padded_bbox[3]:
                     # Crop the padded bounding box
-                    cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]
+                    cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
 
                     # Save the cropped bounding box with a unique filename
                     cropped_img_save_path = os.path.join(output_path, f"cropped_bbox_{idx}.jpg")
