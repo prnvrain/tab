@@ -257,17 +257,19 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
             for idx, box in enumerate(bboxes_scaled):
                 bbox = box.cpu().data.numpy()
                 bbox = bbox.astype(np.int32)
+                print("Original Bounding Box:", bbox)
 
                 # Add padding to the bounding box
                 x, y, wid, ht = bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]
                 padded_bbox = [x - padding_size, y - padding_size, x + wid + padding_size, y + ht + padding_size]
+                print("Padded Bounding Box:", padded_bbox)
 
                 # Ensure the padded bounding box is within the image bounds
                 padded_bbox[0] = max(0, padded_bbox[0])
                 padded_bbox[1] = max(0, padded_bbox[1])
                 padded_bbox[2] = min(w, padded_bbox[2])
                 padded_bbox[3] = min(h, padded_bbox[3])
-
+                print("Clipped Padded Bounding Box:", padded_bbox)
                 
                 # Cop the padded bounding box
                 cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
