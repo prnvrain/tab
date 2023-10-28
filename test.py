@@ -259,8 +259,8 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
                 bbox = bbox.astype(np.int32)
 
                 # Add padding to the bounding box
-                x, y, w, h = bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]
-                padded_bbox = [x - padding_size, y - padding_size, x + w + padding_size, y + h + padding_size]
+                x, y, wid, ht = bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]
+                padded_bbox = [x - padding_size, y - padding_size, x + wid + padding_size, y + ht + padding_size]
 
                 # Ensure the padded bounding box is within the image bounds
                 padded_bbox[0] = max(0, padded_bbox[0])
@@ -296,5 +296,5 @@ if __name__ == "__main__":
     model.to(device)
     image_paths = get_images(args.data_path)
 
-    padcrop(image_paths, model, postprocessors, device, args.output_dir,0)
+    padcrop(image_paths, model, postprocessors, device, args.output_dir,20)
 
