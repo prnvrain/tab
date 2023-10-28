@@ -266,7 +266,7 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
                 padded_bbox[0] = max(0, padded_bbox[0])
                 padded_bbox[1] = max(0, padded_bbox[1])
                 padded_bbox[2] = min(w, padded_bbox[2])
-                padded_bbox[3] = min(h, padded_bbox[3]
+                padded_bbox[3] = min(h, padded_bbox[3])
 
                 # Crop the padded bounding box
                 cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
