@@ -257,29 +257,30 @@ def padcrop(images_path, model, postprocessors, device, output_path, padding_siz
             for idx, box in enumerate(bboxes_scaled):
                 bbox = box.cpu().data.numpy()
                 bbox = bbox.astype(np.int32)
-                print("Original Bounding Box:", bbox)
+
                 # Add padding to the bounding box
                 x, y, w, h = bbox[0], bbox[1], bbox[2] - bbox[0], bbox[3] - bbox[1]
                 padded_bbox = [x - padding_size, y - padding_size, x + w + padding_size, y + h + padding_size]
-                print("Padded Bounding Box:", padded_bbox)
+
                 # Ensure the padded bounding box is within the image bounds
                 padded_bbox[0] = max(0, padded_bbox[0])
                 padded_bbox[1] = max(0, padded_bbox[1])
                 padded_bbox[2] = min(w, padded_bbox[2])
-                padded_bbox[3] = min(h, padded_bbox[3])
-                print("Clipped Padded Bounding Box:", padded_bbox)
-                # Crop the padded bounding box
-                cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]]
+                padded_bbox[3] = min(h, padded_bbox[3]
 
-                # Save the cropped bounding box with a unique filename
-                cropped_img_save_path = os.path.join(output_path, f"cropped_bbox_{idx}.jpg")
-                cv2.imwrite(cropped_img_save_path, cropped_bbox)
+                # Check if the padded bounding box is valid (non-empty)
+                if padded_bbox[0] < padded_bbox[2] and padded_bbox[1] < padded_bbox[3]:
+                    # Crop the padded bounding box
+                    cropped_bbox = img[padded_bbox[1]:padded_bbox[3], padded_bbox[0]:padded_bbox[2]
 
-                print("Processed...{} in ({:.3f}s)".format(img_sample, infer_time))
+                    # Save the cropped bounding box with a unique filename
+                    cropped_img_save_path = os.path.join(output_path, f"cropped_bbox_{idx}.jpg")
+                    cv2.imwrite(cropped_img_save_path, cropped_bbox)
+
+                    print("Processed...{} in ({:.3f}s)".format(img_sample, infer_time))
 
     avg_duration = duration / len(images_path)
     print("Avg. Time for cropping: {:.3f}s".format(avg_duration))
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('DETR training and evaluation script', parents=[get_args_parser()])
