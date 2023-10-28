@@ -297,5 +297,5 @@ if __name__ == "__main__":
     model.to(device)
     image_paths = get_images(args.data_path)
 
-    padcrop(image_paths, model, postprocessors, device, args.output_dir,20)
+    padcrop(image_paths, model, postprocessors, device, args.output_dir,2)
 
